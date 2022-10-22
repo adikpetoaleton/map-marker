@@ -1,0 +1,50 @@
+.canvas {
+    position: relative;
+}
+
+.markerHidden {
+    position: absolute;
+    display: none;
+}
+
+.markerVisible {
+    position: absolute;
+    display: block;
+    z-index: 1;
+}
+
+.area {
+    position: absolute;
+    display: block;
+}
+
+.area:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.tag {
+    z-index: 2;
+    height: 1.2rem;
+    background: rgba(255, 0, 0, 0.3);
+    width: fit-content;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 50px;
+    color: white;
+    font-family: sans-serif;
+    font-weight: lighter;
+    margin-bottom: 2px;
+}
+
+.tag:hover {
+    background: rgba(60, 35, 35, 0.3);
+    cursor: pointer;
+}
+
+.tags {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}

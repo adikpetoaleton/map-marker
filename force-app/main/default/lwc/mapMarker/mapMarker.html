@@ -1,0 +1,33 @@
+<template>
+
+  <div class="canvas" ondblclick={handleConfirmClick}>
+    <img 
+      class="mapResource"
+      src={mapResource} 
+    />
+
+    <template iterator:it={regions}>
+
+      <div class="area" key={it.value.id} data-id={it.value.id} data-name={it.value.name} data-x={it.value.x}
+        data-y={it.value.y} onclick={onMapClickHandler}>
+      </div>
+
+      <img 
+        class="markerHidden" 
+        key={it.value.id} 
+        data-idx={it.value.id}  
+        src={markerResource}
+      />
+
+    </template>
+
+    <div class="tags">
+      <template iterator:it={selectedRegions}>
+        <div class="tag" key={it.value.id} data-id={it.value.id} data-name={it.value.name} data-x={it.value.x}
+        data-y={it.value.y} onclick={onMapClickHandler}>{it.value.name}</div>
+      </template>
+    </div>
+
+  </div>  
+
+</template>
