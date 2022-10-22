@@ -1,7 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import { OmniscriptBaseMixin } from 'vlocity_ins/omniscriptBaseMixin';
 
-// Changes
 
 // DEBUG
 import LightningConfirm from "lightning/confirm";
