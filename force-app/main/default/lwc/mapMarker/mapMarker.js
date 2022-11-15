@@ -195,7 +195,7 @@ export default class MapMarker extends OmniscriptBaseMixin(LightningElement) {
 
     handleOpenModal() {
         this.isShowModal = true;
-        //setTimeout(() => this.template.querySelector('.search').focus());
+        setTimeout(() => this.template.querySelector('.search').focus());
     }
 
     handleCloseModal(event) {
