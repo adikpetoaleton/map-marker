@@ -1,33 +1,117 @@
+<!-- sldsValidatorIgnore -->
 <template>
 
-  <div class="canvas" ondblclick={handleConfirmClick}>
-    <img 
-      class="mapResource"
-      src={mapResource} 
-    />
 
-    <template iterator:it={regions}>
+  <div class="canvas" ondblclick={onConfirmMapResetHandler} onclick={onClickHandler}>
 
-      <div class="area" key={it.value.id} data-id={it.value.id} data-name={it.value.name} data-x={it.value.x}
-        data-y={it.value.y} onclick={onMapClickHandler}>
-      </div>
+    <!-- Map image is displayed here -->
+    <img class="mapResource" src={mapResource} />
 
-      <img 
-        class="markerHidden" 
-        key={it.value.id} 
-        data-idx={it.value.id}  
-        src={markerResource}
-      />
-
+    <!-- If Runtime Mode is active, clickable Areas and Map Markers are positionned based on Regions data, but Markers are hidden -->
+    <template if:false={adminMode}>
+      <template iterator:it={regions}>
+        <div class="area" key={it.value.id} data-id={it.value.id} data-name={it.value.name} data-x={it.value.x} data-y={it.value.y}></div>
+        <img class="markerHidden" key={it.value.id} data-idx={it.value.id} src={markerResource} />
+      </template>
     </template>
 
+    <!-- In both Modes, Tags are displayed according to user selection (selectedRegions) -->
     <div class="tags">
       <template iterator:it={selectedRegions}>
         <div class="tag" key={it.value.id} data-id={it.value.id} data-name={it.value.name} data-x={it.value.x}
-        data-y={it.value.y} onclick={onMapClickHandler}>{it.value.name}</div>
+          data-y={it.value.y}>{it.value.name} ({it.value.id})</div>
       </template>
     </div>
 
-  </div>  
+    <!-- Spots -->
+    <template if:true={adminMode}>
+      <div class="parent">
+        <div class="spots" lwc:dom="manual"></div>
+      </div>
+    </template>
+
+  </div>
+
+  <!-- Modal Dialog box-->
+  <section role="dialog" if:true={isShowModal} tabindex="-1" class="slds-modal slds-fade-in-open"
+    aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+    onclick={handleUserAction}>
+
+    <div class="slds-modal__container">
+
+      <header class="slds-modal__header">
+        <lightning-button-icon data-id="exit" icon-name="utility:close" variant="bare" onclick={handleCloseModal}
+          style="float:right;"></lightning-button-icon>
+        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Location: {currentLocation.x}px, {currentLocation.y}px</h2>
+      </header>
+
+      <div class="comboBox slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+        <div class="slds-form-element">
+          <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+              <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+
+                  <!--Search Field-->
+                  <lightning-input class="search" label="input text" type="search" variant="label-hidden" 
+                    onclick={handleUserAction}
+                    onchange={handleUserAction}
+                    onkeydown={handleUserAction}
+
+                    
+                    value={selectedItemName} placeholder="Select one Region...">
+                  </lightning-input>
+
+                </div>
+
+                <!--Error Messages-->
+                <div class="noResult" if:true={noResultFound}>No result!</div>
+                <div class="alreadySelected" if:true={isAlreadySelected}>Already selected!</div>
+                
+                <!--Listbox-->
+                <template if:true={showItems}>
+                  <div id="listbox-id-11" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+
+                      <template for:each={itemsFoundlist} for:item="item">
+                        <li data-name={item.name} key={item.name} role="presentation" class="slds-listbox__item" onclick={handleUserAction}>
+                          <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+
+                            <span class="slds-media__body" data-itemid={item.id} data-name={item.name}>
+                              <span class="slds-truncate" title={item.name} data-itemid={item.id} data-name={item.name}>
+                                {item.name} ({item.id})
+                              </span>
+                            </span>
+
+                          </div>
+                        </li>
+                      </template>
+
+                    </ul>
+                  </div>
+                </template>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="slds-modal__footer" id="modal-footer">
+        <lightning-button data-id="cancel" variant="neutral" label="Cancel" onclick={handleCloseModal}
+          class="slds-m-right_x-small"></lightning-button>
+        <lightning-button data-id="save" variant="brand" label="Save" onclick={handleCloseModal}
+          class="slds-m-right_x-small" disabled={isAlreadySelected}></lightning-button>
+      </footer>
+
+    </div>
+    
+  </section>
+
+  <!-- Modal mode Background -->
+  <div class="slds-backdrop slds-backdrop_open" if:true={isShowModal}></div>
 
 </template>
