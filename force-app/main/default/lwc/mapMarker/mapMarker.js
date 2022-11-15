@@ -83,17 +83,6 @@ export default class MapMarker extends OmniscriptBaseMixin(LightningElement) {
         return this._jsonDataStack;
     }
 
-    // Regions Number
-    @api
-    get regionsCount() {
-        return this._regionsCount;
-    }
-    set regionsCount(value) {
-        if (value) {
-            this._regionsCount = parseInt(value);
-        }
-    }
-
     // Regions list
     @api
     get regions() {
@@ -102,6 +91,7 @@ export default class MapMarker extends OmniscriptBaseMixin(LightningElement) {
     set regions(value) {
         if (value) {
             this._regions = value;
+            this._regionsCount = this._regions.length;
         }
     }
 
