@@ -9,15 +9,15 @@ export default class MapMarker extends OmniscriptBaseMixin(LightningElement) {
      * GLOBAL SECTION
      */
 
-    _jsonDataStack = [];                    // Data to be saved into Data JSON Omniscript (data selected)
-    _regions;                               // JSON Payload representing Regions Locations and Names
-    _mapResource;
-    _markerResource;
-    _adminMode;                             // Admin Mode
-    _mapWidth_px;                           // Map Width provided by the User
-    _mapHeight_px;                          // Map Height provided by the User
-    _regionsCount;                          // Regions count provided by the User to calculate Clickable zone size
-    _areaAdjustmentRatio;                   // User can provide an adujstment for the Clickable zone size
+    @track _jsonDataStack = [];                    // Data to be saved into Data JSON Omniscript (data selected)
+    @track _regions;                               // JSON Payload representing Regions Locations and Names
+    @track _mapResource;
+    @track _markerResource;
+    @track _adminMode;                             // Admin Mode
+    @track _mapWidth_px;                           // Map Width provided by the User
+    @track _mapHeight_px;                          // Map Height provided by the User
+    @track _regionsCount;                          // Regions count provided by the User to calculate Clickable zone size
+    @track _areaAdjustmentRatio;                   // User can provide an adujstment for the Clickable zone size
 
     MARKER_AREA_RATIO = 0.3;
 
@@ -137,6 +137,8 @@ export default class MapMarker extends OmniscriptBaseMixin(LightningElement) {
     }
 
     onClickHandler(event) {
+
+        event.stopPropagation();
 
         const target = event.target.className;
 
