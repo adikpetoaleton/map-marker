@@ -83,6 +83,12 @@ export default class MapMarker extends OmniscriptBaseMixin(LightningElement) {
         return this._jsonDataStack;
     }
 
+    // Regions location defined selected
+    @api
+    get canCopyRegions() {
+        return (this._jsonDataStack.length > 0 && this._adminMode);
+    }
+
     // Regions list
     @api
     get regions() {
@@ -661,4 +667,18 @@ export default class MapMarker extends OmniscriptBaseMixin(LightningElement) {
             this.noResultFound = isNoResultFound;
     }
 
+    handleCopy() {
+
+        var elementText = JSON.stringify(this._jsonDataStack);
+        var inputElement = document.createElement('input');
+        inputElement.setAttribute('value', elementText);
+        document.body.appendChild(inputElement);
+        inputElement.select();
+        document.execCommand('copy');
+        inputElement.parentNode.removeChild(inputElement);
+
+    }
+
+
 }
+

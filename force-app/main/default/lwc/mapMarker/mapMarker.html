@@ -17,10 +17,20 @@
 
     <!-- In both Modes, Tags are displayed according to user selection (selectedRegions) -->
     <div class="tags">
+      
       <template iterator:it={selectedRegions}>
         <div class="tag" key={it.value.id} data-id={it.value.id} data-name={it.value.name} data-x={it.value.x}
           data-y={it.value.y}>{it.value.name} ({it.value.id})</div>
       </template>
+
+      <template if:true={canCopyRegions}>
+    
+          <div class="copy" onclick={handleCopy}>
+            <lightning-icon class="clip" icon-name="utility:copy_to_clipboard" size="x-small" alternative-text="copy" title="copy"></lightning-icon>
+          </div>
+   
+      </template>
+
     </div>
 
     <!-- Spots -->
